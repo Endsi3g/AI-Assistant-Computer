@@ -1,0 +1,209 @@
+.step-visualizer {
+    margin: 16px 24px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.step-visualizer.live {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.step-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.live-indicator {
+    color: #22c55e;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.step-count {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.steps-timeline {
+    padding: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.step-node {
+    display: flex;
+    gap: 12px;
+    min-height: 40px;
+}
+
+.step-line {
+    position: relative;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.connector {
+    position: absolute;
+    top: 24px;
+    bottom: -16px;
+    width: 2px;
+    background: var(--border-color);
+}
+
+.step-content {
+    flex: 1;
+    padding-bottom: 16px;
+}
+
+.step-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.step-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.step-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.tool-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 2px 8px;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 4px;
+}
+
+.step-duration {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.step-body {
+    margin-top: 8px;
+}
+
+.tool-args {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    overflow-x: auto;
+}
+
+.tool-args code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+}
+
+.observation-content {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 3px solid #22c55e;
+    border-radius: 0 6px 6px 0;
+}
+
+.error-content {
+    font-size: 13px;
+    color: #ef4444;
+    padding: 8px 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid #ef4444;
+    border-radius: 0 6px 6px 0;
+}
+
+/* Step type colors */
+.step-node.tool_call .step-icon {
+    background: rgba(59, 130, 246, 0.2);
+}
+
+.step-node.observation .step-icon {
+    background: rgba(34, 197, 94, 0.2);
+}
+
+.step-node.error .step-icon {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.step-node.response .step-icon {
+    background: rgba(139, 92, 246, 0.2);
+}
+
+/* Loading spinner */
+.loading-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Scrollbar */
+.steps-timeline::-webkit-scrollbar {
+    width: 6px;
+}
+
+.steps-timeline::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.steps-timeline::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
