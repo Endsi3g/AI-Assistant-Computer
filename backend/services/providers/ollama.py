@@ -12,7 +12,7 @@ class OllamaProvider:
     def __init__(self, base_url: str = "http://localhost:11434", model: str = "llama3.2"):
         self.base_url = base_url.rstrip("/")
         self.model = model
-        self.client = httpx.AsyncClient(timeout=120.0)
+        self.client = httpx.AsyncClient(timeout=10.0)
     
     async def check_connection(self) -> bool:
         """Check if Ollama is running"""

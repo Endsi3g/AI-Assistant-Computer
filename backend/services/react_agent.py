@@ -113,6 +113,12 @@ REACT_SYSTEM_PROMPT = """You are JARVIS, an advanced autonomous AI assistant. Yo
 - get_system_info(): Get time, date, battery, CPU info
 - execute_python(code): Run Python code (sandboxed)
 
+## IMPORTANT: Tool Calling Rules:
+1. You MUST use valid JSON function calling format.
+2. ALWAYS provide one and only one tool call at a time unless parallel execution is necessary.
+3. If using Groq, ensure you strictly follow the standard tool/function call format.
+4. DO NOT use generic tags like <function=...>. Use the actual tool-calling mechanism.
+
 ## Guidelines:
 1. Break complex tasks into steps
 2. Use tools proactively - don't just describe what you could do

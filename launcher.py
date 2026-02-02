@@ -8,8 +8,58 @@ from pathlib import Path
 def print_status(msg, color="white"):
     print(f"[JARVIS] {msg}")
 
+def ensure_ollama_running():
+    """Checks if Ollama is running and attempts to start it if not."""
+    import socket
+    import subprocess
+    import time
+    
+    print_status("Checking Ollama status...")
+    
+    # Try to connect to Ollama port
+    try:
+        with socket.create_connection(("localhost", 11434), timeout=1):
+            print_status("Ollama is already running.")
+            return True
+    except (socket.timeout, ConnectionRefusedError):
+        print_status("Ollama is not running. Attempting to start...")
+        
+    # Attempt to start Ollama on Windows
+    ollama_path = os.path.expandvars(r"%LOCALAPPDATA%\Ollama\ollama.exe")
+    if not os.path.exists(ollama_path):
+        # Try finding it in Program Files as fallback
+        ollama_path = r"C:\Program Files\Ollama\ollama.exe"
+        
+    if os.path.exists(ollama_path):
+        try:
+            subprocess.Popen(
+                [ollama_path, "serve"],
+                creationflags=subprocess.CREATE_NEW_CONSOLE | subprocess.DETACHED_PROCESS,
+                shell=False
+            )
+            # Wait a bit for it to start
+            for _ in range(5):
+                time.sleep(2)
+                try:
+                    with socket.create_connection(("localhost", 11434), timeout=1):
+                        print_status("Ollama started successfully.")
+                        return True
+                except:
+                    continue
+            print_status("Ollama started but not yet responding. Continuing...")
+            return True
+        except Exception as e:
+            print_status(f"Failed to start Ollama: {e}")
+            return False
+    else:
+        print_status("Ollama executable not found. Please install Ollama from ollama.com")
+        return False
+
 def main():
     print_status("Initializing Jarvis AI Assistant...")
+    
+    # Ensure Ollama is running
+    ensure_ollama_running()
     
     # Paths
     base_dir = Path.cwd()

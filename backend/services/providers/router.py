@@ -50,21 +50,28 @@ class AIRouter:
     
     async def initialize(self) -> str:
         """Initialize router and find best available provider"""
+        import asyncio
         # Try primary provider first
         if self.primary_provider in self.providers:
             provider = self.providers[self.primary_provider]
-            if await provider.check_connection():
-                self.active_provider = self.primary_provider
-                return f"[OK] Using {self.primary_provider}"
+            try:
+                if await asyncio.wait_for(provider.check_connection(), timeout=5.0):
+                    self.active_provider = self.primary_provider
+                    return f"[OK] Using {self.primary_provider}"
+            except Exception:
+                pass
         
         # Fallback chain: groq -> perplexity -> openai -> ollama
         fallback_order = ["groq", "perplexity", "openai", "ollama"]
         for provider_name in fallback_order:
             if provider_name in self.providers and provider_name != self.primary_provider:
                 provider = self.providers[provider_name]
-                if await provider.check_connection():
-                    self.active_provider = provider_name
-                    return f"[WARN] Fallback to {provider_name}"
+                try:
+                    if await asyncio.wait_for(provider.check_connection(), timeout=3.0):
+                        self.active_provider = provider_name
+                        return f"[WARN] Fallback to {provider_name}"
+                except Exception:
+                    continue
         
         return "[WARN] No AI provider available"
     
